@@ -1,14 +1,14 @@
 {
-  "name": "var.foo",
+  "name": "frontend",
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "projectType": "application",
-  "sourceRoot": "apps/var.foo/src",
+  "sourceRoot": "apps/frontend/src",
   "targets": {
     "build": {
       "executor": "qwik-nx:build",
       "options": {
-        "runSequence": ["var.foo:build.client", "var.foo:build.ssr"],
-        "outputPath": "dist/apps/var.foo"
+        "runSequence": ["frontend:build.client", "frontend:build.ssr"],
+        "outputPath": "dist/apps/frontend"
       },
       "configurations": {
         "preview": {}
@@ -17,15 +17,15 @@
     "build.client": {
       "executor": "@nrwl/vite:build",
       "options": {
-        "outputPath": "dist/apps/var.foo",
-        "configFile": "apps/var.foo/vite.config.ts"
+        "outputPath": "dist/apps/frontend",
+        "configFile": "apps/frontend/vite.config.ts"
       }
     },
     "build.ssr": {
       "executor": "@nrwl/vite:build",
       "defaultConfiguration": "preview",
       "options": {
-        "outputPath": "dist/apps/var.foo"
+        "outputPath": "dist/apps/frontend"
       },
       "configurations": {
         "preview": {
@@ -37,22 +37,22 @@
     "preview": {
       "executor": "@nrwl/vite:preview-server",
       "options": {
-        "buildTarget": "var.foo:build",
+        "buildTarget": "frontend:build",
         "port": 4300
       }
     },
     "test": {
       "executor": "@nrwl/vite:test",
-      "outputs": ["../../coverage/apps/var.foo"],
+      "outputs": ["../../coverage/apps/frontend"],
       "options": {
         "passWithNoTests": true,
-        "reportsDirectory": "../../coverage/apps/var.foo"
+        "reportsDirectory": "../../coverage/apps/frontend"
       }
     },
     "serve": {
       "executor": "@nrwl/vite:dev-server",
       "options": {
-        "buildTarget": "var.foo:build.client",
+        "buildTarget": "frontend:build.client",
         "mode": "ssr",
         "port": 4200
       }
@@ -61,14 +61,14 @@
       "executor": "nx:run-commands",
       "options": {
         "command": "node --inspect-brk ../../node_modules/vite/bin/vite.js --mode ssr --force",
-        "cwd": "apps/var.foo"
+        "cwd": "apps/frontend"
       }
     },
     "lint": {
       "executor": "@nrwl/linter:eslint",
       "outputs": ["{options.outputFile}"],
       "options": {
-        "lintFilePatterns": ["apps/var.foo/**/*.{ts,tsx,js,jsx}"]
+        "lintFilePatterns": ["apps/frontend/**/*.{ts,tsx,js,jsx}"]
       }
     }
   },
