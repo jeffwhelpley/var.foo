@@ -1,0 +1,76 @@
+{
+  "name": "var.foo",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "application",
+  "sourceRoot": "apps/var.foo/src",
+  "targets": {
+    "build": {
+      "executor": "qwik-nx:build",
+      "options": {
+        "runSequence": ["var.foo:build.client", "var.foo:build.ssr"],
+        "outputPath": "dist/apps/var.foo"
+      },
+      "configurations": {
+        "preview": {}
+      }
+    },
+    "build.client": {
+      "executor": "@nrwl/vite:build",
+      "options": {
+        "outputPath": "dist/apps/var.foo",
+        "configFile": "apps/var.foo/vite.config.ts"
+      }
+    },
+    "build.ssr": {
+      "executor": "@nrwl/vite:build",
+      "defaultConfiguration": "preview",
+      "options": {
+        "outputPath": "dist/apps/var.foo"
+      },
+      "configurations": {
+        "preview": {
+          "ssr": "src/entry.preview.tsx",
+          "mode": "production"
+        }
+      }
+    },
+    "preview": {
+      "executor": "@nrwl/vite:preview-server",
+      "options": {
+        "buildTarget": "var.foo:build",
+        "port": 4300
+      }
+    },
+    "test": {
+      "executor": "@nrwl/vite:test",
+      "outputs": ["../../coverage/apps/var.foo"],
+      "options": {
+        "passWithNoTests": true,
+        "reportsDirectory": "../../coverage/apps/var.foo"
+      }
+    },
+    "serve": {
+      "executor": "@nrwl/vite:dev-server",
+      "options": {
+        "buildTarget": "var.foo:build.client",
+        "mode": "ssr",
+        "port": 4200
+      }
+    },
+    "serve.debug": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "node --inspect-brk ../../node_modules/vite/bin/vite.js --mode ssr --force",
+        "cwd": "apps/var.foo"
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["apps/var.foo/**/*.{ts,tsx,js,jsx}"]
+      }
+    }
+  },
+  "tags": []
+}
