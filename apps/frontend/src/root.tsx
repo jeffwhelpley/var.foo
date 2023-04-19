@@ -21,6 +21,7 @@ export default component$(() => {
     <QwikCityProvider>
       <head>
         <meta charSet="utf-8" />
+        <link href='http://fonts.googleapis.com/css?family=Roboto' rel='stylesheet' type='text/css' />
         <link rel="manifest" href="/manifest.json" />
         <RouterHead />
       </head>

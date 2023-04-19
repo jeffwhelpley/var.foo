@@ -1,43 +1,37 @@
-import { component$, useStylesScoped$ } from "@builder.io/qwik";
-import { QwikLogo } from "../icons/qwik";
-import styles from "./header.css?inline";
+import { component$, useStylesScoped$, $ } from '@builder.io/qwik';
+// import { QwikLogo } from "../icons/qwik";
+// import { VarFooLogo } from "../icons/varfoo-logo";
+import styles from './header.css?inline';
 
 export default component$(() => {
-  useStylesScoped$(styles);
+    useStylesScoped$(styles);
 
-  return (
-    <header>
-      <div class="logo">
-        <a href="https://qwik.builder.io/" target="_blank">
-          <QwikLogo />
-        </a>
-      </div>
-      <ul>
-        <li>
-          <a
-            href="https://qwik.builder.io/docs/components/overview/"
-            target="_blank"
-          >
-            Docs
-          </a>
-        </li>
-        <li>
-          <a
-            href="https://qwik.builder.io/examples/introduction/hello-world/"
-            target="_blank"
-          >
-            Examples
-          </a>
-        </li>
-        <li>
-          <a
-            href="https://qwik.builder.io/tutorial/welcome/overview/"
-            target="_blank"
-          >
-            Tutorials
-          </a>
-        </li>
-      </ul>
-    </header>
-  );
+    const handleCreateAccount = $(function handleCreateAccount() {
+        window.alert('Feature available soon!');
+    });
+
+    const handleSignIn = $(function handleSignIn() {
+        window.alert('Feature available soon!');
+    });
+
+    return (
+        <header>
+            <div class="logo">
+                <a href="/">V</a>
+            </div>
+            <ul>
+                <li>
+                    <div class="link" onClick$={handleCreateAccount}>
+                        Create Account
+                    </div>
+                </li>
+                <li>|</li>
+                <li>
+                    <div class="link" onClick$={handleSignIn}>
+                        Sign In
+                    </div>
+                </li>
+            </ul>
+        </header>
+    );
 });

@@ -1,14 +1,17 @@
-import { component$ } from "@builder.io/qwik";
-import type { DocumentHead } from "@builder.io/qwik-city";
-import { Link } from "@builder.io/qwik-city";
+import { component$ } from '@builder.io/qwik';
+import type { DocumentHead } from '@builder.io/qwik-city';
+import { DropZone } from '../components/drop-zone/drop-zone';
+// import { Link } from "@builder.io/qwik-city";
 
 export default component$(() => {
-  return (
-    <div>
-      <h1>
-        Welcome var.foo <span class="lightning">⚡️</span>
-      </h1>
+    return (
+        <div>
+            <h1>var.foo</h1>
+            <div class="subtitle">Upload and Share Anything to Anyone</div>
 
+            <DropZone></DropZone>
+
+            {/* 
       <ul>
         <li>
           Check out the <code>src/routes</code> directory to get started.
@@ -133,17 +136,17 @@ export default component$(() => {
       </ul>
       <Link class="mindblow" href="/flower/">
         Blow my mind 🤯
-      </Link>
-    </div>
-  );
+      </Link> */}
+        </div>
+    );
 });
 
 export const head: DocumentHead = {
-  title: "Welcome to Qwik",
-  meta: [
-    {
-      name: "description",
-      content: "Qwik site description",
-    },
-  ],
+    title: 'var.foo',
+    meta: [
+        {
+            name: 'description',
+            content: 'Site description',
+        },
+    ],
 };

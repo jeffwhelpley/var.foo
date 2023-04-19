@@ -1,12 +1,17 @@
 header {
   display: flex;
   background: white;
-  border-bottom: 10px solid var(--qwik-dark-purple);
+  /* border-bottom: 10px solid var(--qwik-dark-purple); */
 }
 
 header .logo a {
   display: inline-block;
-  padding: 10px 10px 7px 20px;
+  padding: 5px 20px;
+  margin: 10px;
+  background-color: var(--qwik-dark-purple);
+  color: white;
+  font-size: 24px;
+  font-weight: bold;
 }
 
 header ul {
@@ -23,12 +28,10 @@ header li {
   padding: 0;
 }
 
-header li a {
+header li .link {
   display: inline-block;
-  padding: 15px 10px;
-  text-decoration: none;
-}
-
-header li a:hover {
+  padding: 20px 10px;
+  font-size: 14px;
   text-decoration: underline;
+  color: #0000EE;
 }
