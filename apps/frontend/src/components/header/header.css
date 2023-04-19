@@ -35,3 +35,8 @@ header li .link {
   text-decoration: underline;
   color: #0000EE;
 }
+
+header li .link:hover {
+  color: var(--qwik-dark-purple);
+  cursor: pointer;
+}
