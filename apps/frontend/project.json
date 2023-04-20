@@ -1,76 +1,93 @@
 {
-  "name": "frontend",
-  "$schema": "../../node_modules/nx/schemas/project-schema.json",
-  "projectType": "application",
-  "sourceRoot": "apps/frontend/src",
-  "targets": {
-    "build": {
-      "executor": "qwik-nx:build",
-      "options": {
-        "runSequence": ["frontend:build.client", "frontend:build.ssr"],
-        "outputPath": "dist/apps/frontend"
-      },
-      "configurations": {
-        "preview": {}
-      }
-    },
-    "build.client": {
-      "executor": "@nrwl/vite:build",
-      "options": {
-        "outputPath": "dist/apps/frontend",
-        "configFile": "apps/frontend/vite.config.ts"
-      }
-    },
-    "build.ssr": {
-      "executor": "@nrwl/vite:build",
-      "defaultConfiguration": "preview",
-      "options": {
-        "outputPath": "dist/apps/frontend"
-      },
-      "configurations": {
+    "name": "frontend",
+    "$schema": "../../node_modules/nx/schemas/project-schema.json",
+    "projectType": "application",
+    "sourceRoot": "apps/frontend/src",
+    "targets": {
+        "build": {
+            "executor": "qwik-nx:build",
+            "options": {
+                "runSequence": [
+                    "frontend:build.client",
+                    "frontend:build.ssr",
+                    "frontend:build.cloudflare"
+                ],
+                "outputPath": "dist/apps/frontend"
+            },
+            "configurations": {
+                "preview": {}
+            }
+        },
+        "build.cloudflare": {
+            "executor": "@nrwl/vite:build",
+            "options": {
+                "outputPath": "dist/apps/frontend",
+                "configFile": "apps/frontend/adapters/cloudflare-pages/vite.config.ts"
+            }
+        },
+        "build.client": {
+            "executor": "@nrwl/vite:build",
+            "options": {
+                "outputPath": "dist/apps/frontend",
+                "configFile": "apps/frontend/vite.config.ts"
+            }
+        },
+        "build.ssr": {
+            "executor": "@nrwl/vite:build",
+            "defaultConfiguration": "preview",
+            "options": {
+                "outputPath": "dist/apps/frontend"
+            },
+            "configurations": {
+                "preview": {
+                    "ssr": "src/entry.preview.tsx",
+                    "mode": "production"
+                }
+            }
+        },
         "preview": {
-          "ssr": "src/entry.preview.tsx",
-          "mode": "production"
+            "executor": "@nrwl/vite:preview-server",
+            "options": {
+                "buildTarget": "frontend:build",
+                "port": 4300
+            }
+        },
+        "test": {
+            "executor": "@nrwl/vite:test",
+            "outputs": [
+                "../../coverage/apps/frontend"
+            ],
+            "options": {
+                "passWithNoTests": true,
+                "reportsDirectory": "../../coverage/apps/frontend"
+            }
+        },
+        "serve": {
+            "executor": "@nrwl/vite:dev-server",
+            "options": {
+                "buildTarget": "frontend:build.client",
+                "mode": "ssr",
+                "port": 4200
+            }
+        },
+        "serve.debug": {
+            "executor": "nx:run-commands",
+            "options": {
+                "command": "node --inspect-brk ../../node_modules/vite/bin/vite.js --mode ssr --force",
+                "cwd": "apps/frontend"
+            }
+        },
+        "lint": {
+            "executor": "@nrwl/linter:eslint",
+            "outputs": [
+                "{options.outputFile}"
+            ],
+            "options": {
+                "lintFilePatterns": [
+                    "apps/frontend/**/*.{ts,tsx,js,jsx}"
+                ]
+            }
         }
-      }
     },
-    "preview": {
-      "executor": "@nrwl/vite:preview-server",
-      "options": {
-        "buildTarget": "frontend:build",
-        "port": 4300
-      }
-    },
-    "test": {
-      "executor": "@nrwl/vite:test",
-      "outputs": ["../../coverage/apps/frontend"],
-      "options": {
-        "passWithNoTests": true,
-        "reportsDirectory": "../../coverage/apps/frontend"
-      }
-    },
-    "serve": {
-      "executor": "@nrwl/vite:dev-server",
-      "options": {
-        "buildTarget": "frontend:build.client",
-        "mode": "ssr",
-        "port": 4200
-      }
-    },
-    "serve.debug": {
-      "executor": "nx:run-commands",
-      "options": {
-        "command": "node --inspect-brk ../../node_modules/vite/bin/vite.js --mode ssr --force",
-        "cwd": "apps/frontend"
-      }
-    },
-    "lint": {
-      "executor": "@nrwl/linter:eslint",
-      "outputs": ["{options.outputFile}"],
-      "options": {
-        "lintFilePatterns": ["apps/frontend/**/*.{ts,tsx,js,jsx}"]
-      }
-    }
-  },
-  "tags": []
+    "tags": []
 }

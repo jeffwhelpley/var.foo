@@ -4,7 +4,9 @@
     "license": "MIT",
     "scripts": {
         "build": "nx run frontend:build",
-        "start": "nx run frontend:serve"
+        "start": "nx run frontend:serve",
+        "cf.build": "nx run frontend:build.cloudflare",
+        "cf.dev": "wrangler pages dev ./dist/apps/frontend/client --script-path ./dist/apps/frontend/server/entry.cloudflare-pages"
     },
     "private": true,
     "dependencies": {
@@ -37,6 +39,7 @@
         "vite": "~4.2.1",
         "vite-plugin-eslint": "^1.8.1",
         "vite-tsconfig-paths": "~4.0.7",
-        "vitest": "^0.25.8"
+        "vitest": "^0.25.8",
+        "wrangler": "latest"
     }
 }
