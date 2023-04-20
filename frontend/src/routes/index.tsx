@@ -146,7 +146,7 @@ export const head: DocumentHead = {
     meta: [
         {
             name: 'description',
-            content: 'Site description',
+            content: 'Upload and Share Anything to Anyone',
         },
     ],
 };
