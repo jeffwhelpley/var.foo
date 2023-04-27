@@ -1,0 +1,15 @@
+name = "api-var-foo"
+main = "./src/index.ts"
+compatibility_date = "2022-06-30"
+
+account_id = "4376f66477ba2733a6ffa7c792eea72c"
+workers_dev = true
+
+kv_namespaces = [
+    { binding = "VISITOR_KV", id = "9b3a1e9a54c14a1692931feabfe61a0d" },
+    { binding = "VARIABLE_KV", id = "ac29b949ffc54fb28854093bd6758e44" }
+]
+
+[[r2_buckets]]
+binding = 'VAR_FOO_BUCKET'
+bucket_name = 'var-foo'

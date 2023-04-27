@@ -7,11 +7,11 @@ export default component$(() => {
     useStylesScoped$(styles);
 
     const handleCreateAccount = $(function handleCreateAccount() {
-        window.alert('Feature available soon!');
+        window.alert('No need to create a new account! Just upload some files.');
     });
 
     const handleSignIn = $(function handleSignIn() {
-        window.alert('Feature available soon!');
+        window.alert('No need to login! Just upload some files.');
     });
 
     return (

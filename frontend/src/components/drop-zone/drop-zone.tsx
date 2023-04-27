@@ -1,53 +1,92 @@
-import { component$, useStylesScoped$, $, QwikDragEvent, QwikChangeEvent } from '@builder.io/qwik';
+import type { QwikDragEvent, QwikChangeEvent } from '@builder.io/qwik';
+import { component$, useStylesScoped$, $, useSignal } from '@builder.io/qwik';
 import styles from './drop-zone.css?inline';
+import { useNavigate } from '@builder.io/qwik-city';
 
 export const DropZone = component$(() => {
+    const nav = useNavigate();
+    const isDropHandlerSet = useSignal(false);
     useStylesScoped$(styles);
+
+    const uploadFiles = $(async function uploadFiles(files: File[]) {
+        console.log('files are ');
+        console.log(files);
+
+        if (!files?.length) {
+            console.log('No files to upload. Not doing anything.');
+            return;
+        } else if (files.length > 5) {
+            console.error('Too many files to upload. Sorry!');
+            return;
+        }
+
+        console.log('Right number of files');
+
+        // first make sure we have visitorId
+        let visitorId = window.localStorage.getItem('visitorId');
+        if (!visitorId) {
+            const visitorResp = await fetch('https://api.var.foo/visitors/createVisitor', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+            });
+            const visitor = await visitorResp.json();
+            visitorId = visitor.visitorId;
+            console.log(`got visitorId ${visitorId}`);
+            window.localStorage.setItem('visitorId', visitorId || '');
+        }
+
+        console.log('Got visitor ID now');
+
+        // now upload the files
+        const formData = new FormData();
+        formData.append('visitorId', visitorId || '');
+        for (const file of files) {
+            // if file greater than 10MB, don't upload 981767724
+            console.log('checking file size ' + file.size);
+            if (file.size > 10000000) {
+                console.error('File too large. Max size is 10MB.');
+                throw new Error('File too large. Max size is 10MB.');
+            }
+            console.log('File size is ok.');
+
+            formData.append('files', file);
+        }
+
+        console.log('Got form data, about to post');
+
+        const variableResp = await fetch('https://api.var.foo/variables/setVariableFiles', {
+            method: 'POST',
+            body: formData,
+        });
+        const variable = await variableResp.json();
+        console.log('22uploaded files with variable ' + variable.variableId);
+
+        // TODO: redirect to the variable page
+        console.log('22Everything done, now should redirect');
+        nav(`/equals/${variable.variableId}`);
+    });
 
     const handleSelectFiles = $(function handleSelectFiles(e: QwikChangeEvent) {
         const target = e.target as HTMLInputElement;
-        window.alert(`Feature available soon for uploading ${target.files?.length || 0} files!`);
+        const files = [...(target.files || [])];
+        uploadFiles(files);
     });
 
     const handleDragEnter = $(function handleDragEnter(e: QwikDragEvent, currentTarget: HTMLElement) {
-        console.log('handleDragEnter');
-        // e.stopPropagation();
-
-        // const target = currentTarget;
-        // console.log('handleDragEnter target is ');
-        // console.log(target);
         currentTarget.classList.add('dragover');
-        // console.log('handleDragEnter target2 is ');
-        // console.log(target);
+
+        if (!isDropHandlerSet.value) {
+            const dropArea = document.querySelector('#drop-area');
+            dropArea?.addEventListener('drop', (e: any) => {
+                currentTarget.classList.remove('dragover');
+                uploadFiles([...e.dataTransfer.files]);
+            });
+            isDropHandlerSet.value = true;
+        }
     });
 
     const handleDragLeave = $(function handleDragLeave(e: QwikDragEvent, currentTarget: HTMLElement) {
-        console.log('handleDragLeave');
-        // e.stopPropagation();
-
-        // const target = currentTarget;
-        // console.log('handleDragLeave target is ');
-        // console.log(target);
         currentTarget.classList.remove('dragover');
-        // console.log('handleDragLeave target2 is ');
-        // console.log(target);
-    });
-
-    // const handleDragOver = $(function handleDragOver(e: QwikDragEvent) {
-    //     console.log('handleDragOver');
-    //     e.stopPropagation();
-    //     // this.classList.remove('dragover');
-    //     console.log(e);
-    // });
-
-    const handleDrop = $(function handleDrop(e: QwikDragEvent, currentTarget: HTMLElement) {
-        console.log('handleDrop');
-        e.stopPropagation();
-        currentTarget.classList.remove('dragover');
-        // this.classList.remove('dragover');
-
-        console.log(e.dataTransfer);
-        window.alert(`Feature available soon!`);
     });
 
     return (
@@ -60,8 +99,6 @@ export const DropZone = component$(() => {
                 preventdefault:drop
                 onDragEnter$={handleDragEnter}
                 onDragLeave$={handleDragLeave}
-                // onDragOver$={handleDragOver}
-                onDrop$={handleDrop}
             >
                 Drop Files Here
             </div>

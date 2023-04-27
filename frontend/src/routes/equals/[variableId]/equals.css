@@ -1,0 +1,9 @@
+
+
+.copybtn {
+    display: block;
+    text-align: center;
+    background-color: var(--qwik-light-blue);
+    color: #eee;
+    padding: 10px;
+}
