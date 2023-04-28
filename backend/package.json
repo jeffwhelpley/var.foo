@@ -3,12 +3,16 @@
     "version": "0.0.0",
     "private": true,
     "scripts": {
-        "deploy": "wrangler publish src/index.ts",
-        "dev": "wrangler dev src/index.ts --local"
+        "deploy": "wrangler publish src/backend.start.ts",
+        "dev": "wrangler dev src/backend.start.ts --local"
     },
     "devDependencies": {
         "@cloudflare/workers-types": "^3.0.0",
         "@types/jest": "^29.5.1",
+        "@types/node": "^18.16.2",
         "wrangler": "^2.1.14"
+    },
+    "dependencies": {
+        "module-alias": "^2.2.2"
     }
 }

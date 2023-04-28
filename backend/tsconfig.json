@@ -13,8 +13,24 @@
         "sourceMap": true,
         "types": [
             "@cloudflare/workers-types",
-            "@types/jest"
-        ]
+            "@types/jest",
+            "@types/node",
+        ],
+        "baseUrl": "./",
+        "paths": {
+            "@varfoo/adapters": [
+                "src/adapters"
+            ],
+            "@varfoo/services": [
+                "src/services"
+            ],
+            "@varfoo/models": [
+                "src/models"
+            ],
+            "@varfoo/worker": [
+                "src/worker"
+            ],
+        }
     },
     "include": [
         "src"
