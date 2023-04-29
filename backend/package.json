@@ -4,7 +4,7 @@
     "private": true,
     "scripts": {
         "deploy": "wrangler publish src/backend.start.ts",
-        "dev": "wrangler dev src/backend.start.ts --local"
+        "start": "wrangler dev src/backend.start.ts --local"
     },
     "devDependencies": {
         "@cloudflare/workers-types": "^3.0.0",

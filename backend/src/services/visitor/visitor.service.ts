@@ -1,31 +1,20 @@
-import { Visitor } from '@varfoo/models';
+import { Visitor, WorkerRequest, WorkerRequestHeaders } from '@varfoo/models';
+import { kvdb } from '@varfoo/adapters';
 
-export async function createVisitor(request: Request, env: any) {
-    const headers = getHeadersFromRequest(request);
-    const visitorId = generateVisitorIdFromHeaders(headers);
-    const visitor: Visitor = { visitorId, headers, createDate: (new Date()).toString() };
+const KVDB_NAME = 'VISITOR_KV';
 
-    await env.VISITOR_KV.put(visitorId, JSON.stringify(visitor));
-
-    const responseBody = JSON.stringify({ visitorId });
-    const responseHeaders = {
-        'Content-Type': 'application/json;charset=UTF-8"',
-        'Access-Control-Allow-Origin': '*'
+export async function createVisitor(workerRequest: WorkerRequest): Promise<Visitor> {
+    const visitor: Visitor = {
+        visitorId: getVisitorId(workerRequest.headers),
+        headers: workerRequest.headers,
+        createDate: (new Date()).toString()
     };
-    return new Response(responseBody, { headers: responseHeaders });
+    await kvdb.saveValue(KVDB_NAME, visitor.visitorId, visitor);
+    return { visitorId: visitor.visitorId };
 }
 
-function getHeadersFromRequest(request: Request): any {
-    const headers: any = {};
-
-    request.headers.forEach((value, key) => {
-        headers[key] = value;
-    });
-
-    return headers;
-}
-
-function generateVisitorIdFromHeaders(headers: any = {}): string {
+function getVisitorId(headers: WorkerRequestHeaders): string {
     const ipAddress = headers['x-real-ip'] || headers['cf-connecting-ip'] || 'anonymous';
-    return `${ipAddress}-${Date.now()}`;
+    const visitorId = `${ipAddress}-${Date.now()}`;
+    return visitorId
 }

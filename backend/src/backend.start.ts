@@ -5,6 +5,3 @@ export default {
         return processCloudflareWorkerRequest(request, env);
     },
 };
-
-
-

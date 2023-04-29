@@ -1,3 +1,4 @@
+import { WorkerRequest, WorkerRequestMethod } from '@varfoo/models';
 import { getVariableData, setVariableFiles } from './variable';
 import { createVisitor } from './visitor';
 
@@ -7,18 +8,12 @@ const routes: ServiceRouteHandlerMap = {
     '/variables/getVariableData': { processRequest: getVariableData }
 };
 
-const defaultHandler: ServiceRouteHandler = {
-    processRequest: async (request: Request, env: any) => {
-        return new Response('Invalid Path', { status: 400 });
-    }
-};
-
 export function registerServiceRoute(urlPath: string, processRequestFn: ProcessRequestFn) {
     routes[urlPath] = { processRequest: processRequestFn };
 }
 
-export function getServiceRouteHandler(urlPath: string): ServiceRouteHandler {
-    return routes[urlPath] || defaultHandler;
+export function getServiceRouteHandler(method: WorkerRequestMethod, urlPath: string): ServiceRouteHandler {
+    return routes[urlPath];
 }
 
 interface ServiceRouteHandlerMap {
@@ -29,4 +24,4 @@ interface ServiceRouteHandler {
     processRequest: ProcessRequestFn;
 }
 
-type ProcessRequestFn = (request: Request, env: any) => Promise<Response>;
+type ProcessRequestFn = (workerRequest: WorkerRequest) => Promise<any>;

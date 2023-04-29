@@ -1,5 +1,5 @@
 export interface Visitor {
     visitorId: string;
-    headers: any;
+    headers?: any;
     createDate?: string;
 }
