@@ -1,3 +1,4 @@
+import { FormData } from '@cloudflare/workers-types';
 export interface WorkerRequest {
     urlPath: string;
     json: () => Promise<any>;

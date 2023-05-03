@@ -1,3 +1,4 @@
+import { KVNamespace } from '@cloudflare/workers-types';
 
 class KbDbAdapter {
     env: any;

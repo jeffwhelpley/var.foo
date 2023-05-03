@@ -1,3 +1,5 @@
+import { R2Bucket, File } from '@cloudflare/workers-types';
+
 const BUCKET_NAME = 'VAR_FOO_BUCKET';
 
 class FileStorageAdapter {

@@ -1,8 +1,10 @@
+import { Request, Response } from '@cloudflare/workers-types';
 import { log, kvdb, fileStorage } from '@varfoo/adapters';
 import { getServiceRouteHandler } from '@varfoo/services';
 import { getWorkerRequestFromRequest } from './request.util';
-import { getOptionsResponse, defaultNotFoundResponse, defaultErrorResponse, getObjectResponse } from './response.util';
+import { getOptionsResponse, getDefaultErrorResponse, getDefaultNotFoundResponse, getObjectResponse } from './response.util';
 import { WorkerRequestMethod } from '@varfoo/models';
+
 
 export async function processCloudflareWorkerRequest(request: Request, env: any): Promise<Response> {
     // this is a hack so that our backend services can have access to KV Namespaces, R2 Buckets, etc.
@@ -26,9 +28,9 @@ export async function processCloudflareWorkerRequest(request: Request, env: any)
             return getObjectResponse(responseObject);
         } catch (ex) {
             log.error('Error processing request: ' + ex, { extra: ex });
-            return defaultErrorResponse;
+            return getDefaultErrorResponse();
         }
     } else {
-        return defaultNotFoundResponse;
+        return getDefaultNotFoundResponse();
     }
 }
