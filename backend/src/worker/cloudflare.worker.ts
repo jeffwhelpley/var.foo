@@ -5,8 +5,6 @@ import { getOptionsResponse, defaultNotFoundResponse, defaultErrorResponse, getO
 import { WorkerRequestMethod } from '@varfoo/models';
 
 export async function processCloudflareWorkerRequest(request: Request, env: any): Promise<Response> {
-    log.info('New request', { extra: request });
-
     // this is a hack so that our backend services can have access to KV Namespaces, R2 Buckets, etc.
     kvdb.registerEnv(env);
     fileStorage.registerEnv(env);
@@ -24,7 +22,7 @@ export async function processCloudflareWorkerRequest(request: Request, env: any)
 
     if (routeHandler) {
         try {
-            const responseObject = routeHandler.processRequest(workerRequest);
+            const responseObject = await routeHandler.processRequest(workerRequest);
             return getObjectResponse(responseObject);
         } catch (ex) {
             log.error('Error processing request: ' + ex, { extra: ex });

@@ -1,3 +1,4 @@
+const BUCKET_NAME = 'VAR_FOO_BUCKET';
 
 class FileStorageAdapter {
     env: any;
@@ -14,8 +15,8 @@ class FileStorageAdapter {
         this.env = env;
     }
 
-    public async saveFile(r2BucketName: string, fileName: string, file: File) {
-        const bucket = this.getR2Bucket(r2BucketName);
+    public async saveFile(fileName: string, file: File) {
+        const bucket = this.getR2Bucket(BUCKET_NAME);
 
         return bucket.put(fileName, file.stream(), {
             httpMetadata: {

@@ -1,7 +1,7 @@
 export interface WorkerRequest {
     urlPath: string;
-    json?: any;
-    formData?: FormData;
+    json: () => Promise<any>;
+    formData: () => Promise<FormData>;
     method: WorkerRequestMethod;
     headers: WorkerRequestHeaders;
 }

@@ -1,14 +1,14 @@
 class LogAdapter {
     info(msg: string, input?: LogContext) {
-        console.info(msg, input);
+        console.info(msg, input || {});
     }
 
     warn(msg: string, input?: LogContext) {
-        console.warn(msg, input);
+        console.warn(msg, input || {});
     }
 
     error(msg: string, input?: LogContext) {
-        console.error(msg, input);
+        console.error(msg, input || {});
     }
 }
 

@@ -3,8 +3,9 @@ import { WorkerRequest } from '@varfoo/models';
 // const ALLOW_ORIGIN = 'https://var.foo';
 const ALLOW_ORIGIN = '*';
 
-export const defaultNotFoundResponse = new Response('Invalid Path', { status: 400 });
-export const defaultErrorResponse = new Response('Unknown error', { status: 500 });
+const defaultHeaders = { 'Access-Control-Allow-Origin': ALLOW_ORIGIN };
+export const defaultNotFoundResponse = new Response('Invalid Path', { status: 400, headers: defaultHeaders });
+export const defaultErrorResponse = new Response('Unknown error', { status: 500, headers: defaultHeaders });
 
 export function getOptionsResponse(workerRequest: WorkerRequest): Response {
     const headers = workerRequest.headers;

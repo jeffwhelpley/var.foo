@@ -3,8 +3,8 @@ import { WorkerRequest, WorkerRequestHeaders, WorkerRequestMethod } from '@varfo
 export async function getWorkerRequestFromRequest(request: Request): Promise<WorkerRequest> {
     return {
         urlPath: getUrlPathFromRequest(request),
-        json: await request.json(),
-        formData: await request.formData(),
+        json: () => request.json(),
+        formData: () => request.formData(),
         method: request.method as WorkerRequestMethod,
         headers: getHeadersFromRequest(request),
     };

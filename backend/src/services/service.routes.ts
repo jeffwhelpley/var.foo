@@ -4,7 +4,7 @@ import { createVisitor } from './visitor';
 
 const routes: ServiceRouteHandlerMap = {
     '/visitors/createVisitor': { processRequest: createVisitor },
-    '/variables/serVariableFiles': { processRequest: setVariableFiles },
+    '/variables/setVariableFiles': { processRequest: setVariableFiles },
     '/variables/getVariableData': { processRequest: getVariableData }
 };
 
