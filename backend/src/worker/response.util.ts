@@ -1,7 +1,7 @@
 import { WorkerRequest } from '@varfoo/models';
 
-// const ALLOW_ORIGIN = 'https://var.foo';
-const ALLOW_ORIGIN = '*';
+const ALLOW_ORIGIN = 'https://var.foo';
+// const ALLOW_ORIGIN = '*';
 
 const defaultHeaders = { 'Access-Control-Allow-Origin': ALLOW_ORIGIN };
 
