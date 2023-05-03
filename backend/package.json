@@ -3,12 +3,22 @@
     "version": "0.0.0",
     "private": true,
     "scripts": {
-        "deploy": "wrangler publish src/index.ts",
-        "dev": "wrangler dev src/index.ts --local"
+        "build": "tsc",
+        "debug": "wrangler publish src/backend.start.ts --dry-run --outdir dist",
+        "deploy": "wrangler publish src/backend.start.ts",
+        "start": "wrangler dev src/backend.start.ts --local"
     },
     "devDependencies": {
-        "@cloudflare/workers-types": "^3.0.0",
-        "@types/jest": "^29.5.1",
-        "wrangler": "^2.1.14"
+        "@cloudflare/workers-types": "^4.20230404.0",
+        "@types/node": "^18.16.3",
+        "@types/uuid": "^9.0.1",
+        "typescript": "^5.0.4",
+        "wrangler": "^2.18.0"
+    },
+    "_moduleAliases": {
+        "@varfoo/adapters": "__build__/src/adapters",
+        "@varfoo/models": "__build__/src/models",
+        "@varfoo/services": "__build__/src/services",
+        "@varfoo/worker": "__build__/src/worker"
     }
 }

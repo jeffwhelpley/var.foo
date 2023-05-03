@@ -3,6 +3,9 @@ import { component$, useStylesScoped$, $, useSignal } from '@builder.io/qwik';
 import styles from './drop-zone.css?inline';
 import { useNavigate } from '@builder.io/qwik-city';
 
+const API_HOST = 'https://api.var.foo';
+// const API_HOST = 'http://127.0.0.1:8787';
+
 export const DropZone = component$(() => {
     const nav = useNavigate();
     const isDropHandlerSet = useSignal(false);
@@ -25,12 +28,17 @@ export const DropZone = component$(() => {
         // first make sure we have visitorId
         let visitorId = window.localStorage.getItem('visitorId');
         if (!visitorId) {
-            const visitorResp = await fetch('https://api.var.foo/visitors/createVisitor', {
+            const visitorResp = await fetch(`${API_HOST}/visitors/createVisitor`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
             });
             const visitor = await visitorResp.json();
             visitorId = visitor.visitorId;
+
+            if (!visitorId) {
+                throw new Error('Could not get visitorId');
+            }
+
             console.log(`got visitorId ${visitorId}`);
             window.localStorage.setItem('visitorId', visitorId || '');
         }
@@ -54,7 +62,7 @@ export const DropZone = component$(() => {
 
         console.log('Got form data, about to post');
 
-        const variableResp = await fetch('https://api.var.foo/variables/setVariableFiles', {
+        const variableResp = await fetch(`${API_HOST}/variables/setVariableFiles`, {
             method: 'POST',
             body: formData,
         });

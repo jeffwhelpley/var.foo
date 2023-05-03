@@ -1,26 +1,41 @@
 {
     "compilerOptions": {
-        "noEmit": true,
         "module": "esnext",
+        "moduleResolution": "node",
         "target": "es2020",
         "lib": [
             "es2020"
         ],
+        "outDir": "__build__",
         "strict": true,
         "alwaysStrict": true,
         "preserveConstEnums": true,
-        "moduleResolution": "node",
         "sourceMap": true,
+        "baseUrl": "./",
         "types": [
-            "@cloudflare/workers-types",
-            "@types/jest"
-        ]
+            "@cloudflare/workers-types"
+        ],
+        "paths": {
+            "@varfoo/adapters": [
+                "src/adapters"
+            ],
+            "@varfoo/services": [
+                "src/services"
+            ],
+            "@varfoo/models": [
+                "src/models"
+            ],
+            "@varfoo/worker": [
+                "src/worker"
+            ],
+        }
     },
     "include": [
         "src"
     ],
     "exclude": [
         "node_modules",
+        "__build__",
         "dist",
         "test"
     ]

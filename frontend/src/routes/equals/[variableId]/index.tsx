@@ -3,6 +3,9 @@ import { useLocation } from '@builder.io/qwik-city';
 import type { DocumentHead } from '@builder.io/qwik-city';
 import styles from './equals.css?inline';
 
+const API_HOST = 'https://api.var.foo';
+// const API_HOST = 'http://127.0.0.1:8787';
+
 export default component$(() => {
     useStylesScoped$(styles);
     const loc = useLocation();
@@ -11,7 +14,7 @@ export default component$(() => {
     const copyLinkButtonText = useSignal('Copy Link');
 
     useTask$(async () => {
-        const variableResp = await fetch('https://api.var.foo/variables/getVariableData', {
+        const variableResp = await fetch(`${API_HOST}/variables/getVariableData`, {
             method: 'POST',
             body: JSON.stringify({ variableId }),
             headers: { 'Content-Type': 'application/json' },

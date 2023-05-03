@@ -6,10 +6,11 @@ account_id = "4376f66477ba2733a6ffa7c792eea72c"
 workers_dev = true
 
 kv_namespaces = [
-    { binding = "VISITOR_KV", id = "9b3a1e9a54c14a1692931feabfe61a0d" },
-    { binding = "VARIABLE_KV", id = "ac29b949ffc54fb28854093bd6758e44" }
+    { binding = "VISITOR_KV", id = "9b3a1e9a54c14a1692931feabfe61a0d", preview_id = "4ec555ed22bc4947ae72f8a7d7a3da72" },
+    { binding = "VARIABLE_KV", id = "ac29b949ffc54fb28854093bd6758e44", preview_id = "06c624a445c54938a5a85e13b5980ae3" }
 ]
 
 [[r2_buckets]]
 binding = 'VAR_FOO_BUCKET'
 bucket_name = 'var-foo'
+preview_bucket_name = 'var-foo-dev'
