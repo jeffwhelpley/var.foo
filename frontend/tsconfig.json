@@ -35,6 +35,8 @@
         "./.eslintrc.cjs"
     ],
     "include": [
-        "src"
+        "src",
+        "adapters",
+        "functions"
     ]
 }
