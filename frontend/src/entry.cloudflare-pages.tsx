@@ -16,6 +16,6 @@ declare global {
     interface QwikCityPlatform extends PlatformCloudflarePages {}
 }
 
-const fetch = createQwikCity({ render, qwikCityPlan, manifest });
+const onRequest = createQwikCity({ render, qwikCityPlan, manifest });
 
-export { fetch };
+export { onRequest };
