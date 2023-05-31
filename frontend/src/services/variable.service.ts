@@ -20,6 +20,10 @@ class VariableService {
 
         return api.post<Variable>(this.name, 'setVariableFiles', formData);
     }
+
+    async getVariableData(variableId: string): Promise<Variable> {
+        return api.post<Variable>(this.name, 'getVariableData', { variableId });
+    }
 }
 
 export const variableService = new VariableService();

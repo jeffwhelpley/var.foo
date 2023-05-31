@@ -4,16 +4,16 @@
     "private": true,
     "scripts": {
         "build": "tsc",
-        "debug": "wrangler publish src/backend.start.ts --dry-run --outdir dist",
-        "deploy": "wrangler publish src/backend.start.ts",
-        "start": "wrangler dev src/backend.start.ts --local"
+        "debug": "wrangler deploy src/backend.start.ts --dry-run --outdir dist",
+        "deploy": "wrangler deploy --env production src/backend.start.ts",
+        "start": "wrangler dev --remote src/backend.start.ts"
     },
     "devDependencies": {
-        "@cloudflare/workers-types": "^4.20230404.0",
-        "@types/node": "^20.0.0",
+        "@cloudflare/workers-types": "^4.20230518.0",
+        "@types/node": "^20.2.5",
         "@types/uuid": "^9.0.1",
         "typescript": "^5.0.4",
-        "wrangler": "^2.18.0"
+        "wrangler": "^3.0.1"
     },
     "_moduleAliases": {
         "@varfoo/adapters": "__build__/src/adapters",

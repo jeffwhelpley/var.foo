@@ -1,5 +1,5 @@
 import { Request, Response } from '@cloudflare/workers-types';
-import { log, kvdb, fileStorage } from '@varfoo/adapters';
+import { log, kvdb, fileStorage, config } from '@varfoo/adapters';
 import { getServiceRouteHandler } from '@varfoo/services';
 import { getWorkerRequestFromRequest } from './request.util';
 import { getOptionsResponse, getDefaultErrorResponse, getDefaultNotFoundResponse, getObjectResponse } from './response.util';
@@ -10,6 +10,7 @@ export async function processCloudflareWorkerRequest(request: Request, env: any)
     // this is a hack so that our backend services can have access to KV Namespaces, R2 Buckets, etc.
     kvdb.registerEnv(env);
     fileStorage.registerEnv(env);
+    config.registerEnv(env);
 
     // we normalize the default request coming in from Clouflare to make our lives easier
     const workerRequest = await getWorkerRequestFromRequest(request);

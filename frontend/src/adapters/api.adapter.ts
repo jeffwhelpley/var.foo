@@ -1,18 +1,28 @@
-const API_HOST = 'https://api.var.foo';
-// const API_HOST = 'http://127.0.0.1:8787';
 
 class VarFooApi {
-    async post<T>(serviceName: string, method: string, data?: string | FormData): Promise<T> {
-        const opts: RequestInit = {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' }
-        };
+    async post<T>(serviceName: string, method: string, data?: any): Promise<T> {
+        const opts: RequestInit = { method: 'POST' };
 
         if (data) {
-            opts.body = JSON.stringify(data);
+            if (data instanceof FormData) {
+                opts.body = data;
+            } else {
+                opts.headers = { 'Content-Type': 'application/json' };
+
+                if (typeof data === 'string') {
+                    if (data.trim().startsWith('{')) {
+                        opts.body = data;
+                    } else {
+                        throw new Error(`Invalid post serviceName=${serviceName} method=${method} data=${data}`);
+                    }
+                } else {
+                    opts.body = JSON.stringify(data);
+                }
+            }
         }
 
-        const resp = await fetch(`${API_HOST}/${serviceName}/${method}`, opts);
+        const apiHost = import.meta.env.PUBLIC_API_HOST;
+        const resp = await fetch(`${apiHost}/${serviceName}/${method}`, opts);
         const responseData = await resp.json() as T;
         return responseData;
     }

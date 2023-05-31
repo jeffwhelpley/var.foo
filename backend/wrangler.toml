@@ -14,3 +14,23 @@ kv_namespaces = [
 binding = 'VAR_FOO_BUCKET'
 bucket_name = 'var-foo'
 preview_bucket_name = 'var-foo-dev'
+
+[vars]
+ALLOW_ORIGIN="*"
+FILE_ROOT="https://filedev.var.foo"
+
+[env.production]
+kv_namespaces = [
+    { binding = "VISITOR_KV", id = "9b3a1e9a54c14a1692931feabfe61a0d", preview_id = "4ec555ed22bc4947ae72f8a7d7a3da72" },
+    { binding = "VARIABLE_KV", id = "ac29b949ffc54fb28854093bd6758e44", preview_id = "06c624a445c54938a5a85e13b5980ae3" }
+]
+
+[[env.production.r2_buckets]]
+binding = 'VAR_FOO_BUCKET'
+bucket_name = 'var-foo'
+preview_bucket_name = 'var-foo-dev'
+
+[env.production.vars]
+ALLOW_ORIGIN="https://var.foo"
+FILE_ROOT="https://file.var.foo"
+

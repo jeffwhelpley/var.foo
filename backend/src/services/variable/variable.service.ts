@@ -1,5 +1,5 @@
 import { Variable, WorkerRequest } from '@varfoo/models';
-import { fileStorage, kvdb } from '@varfoo/adapters';
+import { fileStorage, kvdb, config } from '@varfoo/adapters';
 import { getVisitor } from '../visitor';
 
 const KVDB_NAME = 'VARIABLE_KV';
@@ -16,39 +16,37 @@ export async function setVariableFiles(workerRequest: WorkerRequest): Promise<Va
         throw new Error('No visitorId');
     }
 
-    console.log('visitorId is ' + visitorId);
-
     const visitor = await getVisitor(visitorId);
     if (!visitor) {
         throw new Error('No visitor found for visitorId ' + visitorId);
     }
-
-    console.log('visitor is ' + JSON.stringify(visitor, null, 2));
 
     const variableId = await generateNewVariableId();
     if (!variableId) {
         throw new Error('Could not generate VariableId');
     }
 
-    console.log('variableId is ' + variableId);
-
     const files = formData.getAll('files') as any[];
     if (!files.length) {
         throw new Error('No files to upload');
     }
 
-    console.log('files are ' + JSON.stringify(files, null, 2));
-
     const variableFiles = [];
     for (const file of files) {
         const type = file.type;
         const fileName = `${variableId}-${file.name}`;
+
+        console.log(`Saving file ${fileName}...`);
         await fileStorage.saveFile(fileName, file);
-        variableFiles.push({ name: file.name, type, url: `https://file.var.foo/${fileName}` });
+        console.log(`Saving file ${fileName}...done`);
+
+        variableFiles.push({ name: file.name, type, url: `${config.fileRoot}/${fileName}` });
     }
 
     const variable = { variableId, visitorId, files: variableFiles, createDate: (new Date()).toString() };
+    console.log(`Saving variable ${variableId}...`);
     await kvdb.saveValue(KVDB_NAME, variableId, variable);
+    console.log(`Saving variable ${variableId}...done`);
 
     return variable;
 }
