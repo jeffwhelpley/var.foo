@@ -1,9 +1,7 @@
 import { WorkerRequest } from '@varfoo/models';
+import { config } from '@varfoo/adapters';
 
-const ALLOW_ORIGIN = 'https://var.foo';
-// const ALLOW_ORIGIN = '*';
-
-const defaultHeaders = { 'Access-Control-Allow-Origin': ALLOW_ORIGIN };
+const defaultHeaders = { 'Access-Control-Allow-Origin': config.allowOrigin };
 
 export function getDefaultNotFoundResponse() {
     return new Response('Invalid Path', { status: 400, headers: defaultHeaders });
@@ -20,7 +18,7 @@ export function getOptionsResponse(workerRequest: WorkerRequest): Response {
     if (!headers['Origin'] && !headers['Access-Control-Request-Method'] && !headers['Access-Control-Request-Headers']) {
         return new Response(null, {
             headers: {
-                'Access-Control-Allow-Origin': ALLOW_ORIGIN,
+                'Access-Control-Allow-Origin': config.allowOrigin,
                 'Access-Control-Allow-Methods': 'POST,OPTIONS',
                 'Access-Control-Max-Age': '86400',
                 'Access-Control-Allow-Headers': '*'
@@ -43,7 +41,7 @@ export function getObjectResponse(obj: any) {
     return new Response(obj, {
         headers: {
             'Content-Type': 'application/json;charset=UTF-8',
-            'Access-Control-Allow-Origin': ALLOW_ORIGIN
+            'Access-Control-Allow-Origin': config.allowOrigin
         }
     });
 }
