@@ -7,6 +7,7 @@ import { visitorService, variableService } from '../../services';
 export const DropZone = component$(() => {
     const nav = useNavigate();
     const isDropHandlerSet = useSignal(false);
+    const isOverlayVisible = useSignal(false);
 
     useStylesScoped$(styles);
 
@@ -19,6 +20,8 @@ export const DropZone = component$(() => {
             return;
         }
 
+        isOverlayVisible.value = true;
+
         // first make sure we have visitorId
         let visitorId = window.localStorage.getItem('visitorId');
         if (!visitorId) {
@@ -26,6 +29,7 @@ export const DropZone = component$(() => {
             visitorId = visitor?.visitorId;
 
             if (!visitorId) {
+                isOverlayVisible.value = false;
                 throw new Error('Could not get visitorId');
             }
 
@@ -36,6 +40,7 @@ export const DropZone = component$(() => {
         const variable = await variableService.setVariableFiles(visitorId, files);
 
         // files saved, so now navigate to the variable page
+        isOverlayVisible.value = false;
         nav(`/equals/${variable.variableId}`);
     });
 
@@ -64,6 +69,15 @@ export const DropZone = component$(() => {
 
     return (
         <div>
+            {isOverlayVisible.value && (
+                <div class="lds-ring">
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                </div>
+            )}
+            {isOverlayVisible.value && <div class="lds-overlay"></div>}
             <div
                 id="drop-area"
                 preventdefault:dragenter
