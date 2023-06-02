@@ -12,7 +12,12 @@ export function registerServiceRoute(urlPath: string, processRequestFn: ProcessR
     routes[urlPath] = { processRequest: processRequestFn };
 }
 
-export function getServiceRouteHandler(method: WorkerRequestMethod, urlPath: string): ServiceRouteHandler {
+export function getServiceRouteHandler(method: WorkerRequestMethod, urlPath: string): ServiceRouteHandler | null {
+    // only POST requests are allowed
+    if (method !== WorkerRequestMethod.POST) {
+        return null;
+    }
+
     return routes[urlPath];
 }
 
